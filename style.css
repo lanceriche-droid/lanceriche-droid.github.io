@@ -4,11 +4,11 @@
 
 body {
   margin: 0;
-  background: #514ec9;
-  color: #222;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-}
+  background: #21e70f;
+  color: #d8194c;
+  font-family: fantasy
 
+} 
 #all-contents {
   max-width: 1500px;
   min-height: 100vh;
@@ -34,4 +34,70 @@ main {
   align-items: flex-start;
   gap: 12px;
 }
+h2 {
+  color: #e94560; /* bright accent */
+}
 
+.content p {
+  color: #0936ee;
+}
+
+#interests {
+  margin-top: 32px;
+  width: 100%;
+}
+
+#interests h3 {
+  margin: 0 0 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #aaa;
+}
+
+#interests ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#interests li {
+  color: #555;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 100px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+  cursor: default;
+}
+
+#interests li:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  transform: translateY(-2px);
+}
+
+#interests h3 {
+  color: #e94560;
+}
+
+#interests li {
+  background: #ffe8ec;
+  border-color: #e94560;
+  color: #e94560;
+}
+
+#interests li:hover {
+  background: #e94560;
+  color: #6b0303;
+}

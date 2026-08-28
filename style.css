@@ -6,7 +6,7 @@ body {
   margin: 0;
   background: #7b2cbf;
   color: #ffd166;
-  font-family: fantasy;
+  font-family: 'Trebuchet MS', Impact, sans-serif;
 }
 
 #all-contents {
@@ -39,35 +39,43 @@ nav h1 {
 #nav-ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   margin: 0;
   padding: 0;
 }
 
 .nav-li a {
+  display: inline-block;
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: bold;
   padding: 12px 20px;
   border-radius: 15px;
   background: #ff006e;
-  transition: 0.3s;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 
 .nav-li a:hover {
   background: #fbff12;
   color: #000000;
-  transform: scale(1.15);
+  transform: scale(1.08);
 }
 
-/* Main content */
+/* Main Content Grid */
 main {
   display: grid;
   grid-template-columns: minmax(250px, 1fr) minmax(400px, 1.5fr);
-  align-items: center;
+  align-items: start;
   min-height: calc(100vh - 150px);
   gap: 60px;
+}
+
+/* Adjust layout when sidebar is absent */
+main:has(.sidebar:empty),
+main:not(:has(.sidebar)) {
+  grid-template-columns: 1fr;
 }
 
 .sidebar {
@@ -79,9 +87,17 @@ main {
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+  width: 100%;
 }
 
-/* Name */
+/* Section Titles */
+.content h1 {
+  color: #fbff12;
+  font-size: 3rem;
+  margin: 0;
+  text-shadow: 4px 4px #ff006e;
+}
+
 h2 {
   color: #fbff12;
   font-size: 4rem;
@@ -89,18 +105,8 @@ h2 {
   text-shadow: 5px 5px #ff006e;
 }
 
-/* Description */
-.content p {
-  color: #00f5d4;
-  font-size: 1.8rem;
-  background: #240046;
-  padding: 15px 25px;
-  border-radius: 20px;
-}
-
-/* Interests */
 .content h3 {
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 10px;
   font-size: 2rem;
   color: #ff9f1c;
@@ -108,7 +114,18 @@ h2 {
   letter-spacing: 4px;
 }
 
-.content ul {
+/* Paragraph Text */
+.content p {
+  color: #00f5d4;
+  font-size: 1.8rem;
+  background: #240046;
+  padding: 15px 25px;
+  border-radius: 20px;
+  margin: 0;
+}
+
+/* Generic Lists */
+.content ul:not(#portfolio) {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -117,7 +134,7 @@ h2 {
   gap: 15px;
 }
 
-.content li {
+.content ul:not(#portfolio) li {
   color: #240046;
   font-size: 1.4rem;
   font-weight: bold;
@@ -125,16 +142,16 @@ h2 {
   background: #ffbe0b;
   border: 4px solid #ff006e;
   border-radius: 50px;
-  transition: 0.3s;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 
-.content li:hover {
+.content ul:not(#portfolio) li:hover {
   background: #00f5d4;
   color: #ff006e;
-  transform: rotate(-5deg) scale(1.1);
+  transform: rotate(-3deg) scale(1.05);
 }
 
-/* Image */
+/* Sidebar Image */
 .sidebar-img {
   width: 100%;
   max-width: 600px;
@@ -145,7 +162,7 @@ h2 {
   border: 10px solid #ffbe0b;
   box-shadow: 15px 15px 0 #ff006e;
   filter: saturate(150%);
-  transition: 0.4s;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .sidebar-img:hover {
@@ -154,11 +171,7 @@ h2 {
   box-shadow: 20px 20px 0 #fbff12;
 }
 
-/* Portfolio styles */
-.content h1 {
-  color: black;
-}
-
+/* Portfolio Specific Styles */
 #portfolio {
   list-style: none;
   margin: 0;
@@ -166,12 +179,19 @@ h2 {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 #portfolio li {
+  padding: 0;
+  background: transparent;
+  border: none;
   border-radius: 12px;
   overflow: hidden;
+}
+
+#portfolio li:hover {
+  transform: none;
 }
 
 #portfolio a {
@@ -179,31 +199,30 @@ h2 {
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
-  color: #444;
-  padding: 16px 20px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  color: #240046;
+  padding: 18px 24px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #ffffff;
+  border: 4px solid #ff006e;
+  border-radius: 16px;
   transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
 
 #portfolio a:hover {
-  background: #000;
-  color: #fff;
-  transform: translateX(4px);
+  background: #fbff12;
+  color: #240046;
+  transform: translateX(8px);
 }
 
 #portfolio a::after {
-  content: "->";
-  font-size: 0.85rem;
-  opacity: 0.4;
-  transition: opacity 0.25s ease;
-  white-space: nowrap;
+  content: "→";
+  font-size: 1.2rem;
+  opacity: 0.6;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 #portfolio a:hover::after {
   opacity: 1;
+  transform: translateX(4px);
 }
-

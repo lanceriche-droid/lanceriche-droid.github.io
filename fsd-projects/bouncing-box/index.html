@@ -31,78 +31,131 @@
     <div class="box">?</div>
 
     <script>
-      (function () {
-        "use strict";
-        /* global jQuery */
+      // Variable declarations
+var positionX = 0;
+var positionY = 0;      // Tracks vertical position for jumping
+var speedY = 0;         // Vertical velocity
+var gravity = 1.5;      // Pulls the box back down
+var points = 0;
+var speed = 10;
+var isJumping = false;
 
-        //////////////////////////////////////////////////////////////////
-        /////////////////// SETUP DO NOT DELETE //////////////////////////
-        //////////////////////////////////////////////////////////////////
+// DOM elements
+var collectible = jQuery(".collectible");
+var platform = jQuery(".platform");
 
-        var box = jQuery(".box"); // reference to the HTML .box element
-        var board = jQuery(".board"); // reference to the HTML .board element
-        var boardWidth = board.width(); // the maximum X-Coordinate of the screen
+// Collectible item coordinates
+var itemX = getRandomPosition(boardWidth - 30);
+var itemY = 100;
 
-        // update the boardWidth variable when the window is resized
-        jQuery(window).on("resize", function () {
-          boardWidth = board.width();
-        });
+// Platform box coordinates
+var platformX = getRandomPosition(boardWidth - 100);
+var platformWidth = 100;
 
-        // Every 50 milliseconds, call the update Function (see below)
-        setInterval(update, 50);
+// Initialize positions on load
+moveItemTo(itemX, itemY);
+movePlatformTo(platformX);
 
-        // Every time the box is clicked, call the handleBoxClick Function (see below)
-        box.on("click", handleBoxClick);
+/*
+ * Main game loop running 20 times per second
+ */
+function update() {
+    // 1. Horizontal Movement
+    positionX = positionX + speed;
+    
+    // 2. Vertical Jump Mechanics & Gravity
+    positionY = positionY + speedY;
+    if (positionY > 0) {
+        speedY = speedY - gravity; // Apply gravity when off the ground
+    } else {
+        positionY = 0;
+        speedY = 0;
+        isJumping = false;
+    }
 
-        // moves the Box to a new position on the screen along the X-Axis
-        function moveBoxTo(newPositionX) {
-          box.css("left", newPositionX);
-        }
+    // 3. Platform Landing Detection
+    // Check if box is falling onto the platform top surface
+    if (positionX + 50 >= platformX && 
+        positionX <= platformX + platformWidth && 
+        positionY <= 20 && speedY <= 0) {
+        positionY = 20; // Land on top of platform
+        speedY = 0;
+        isJumping = false;
+    }
 
-        // changes the text displayed on the Box
-        function changeBoxText(newText) {
-          box.text(newText);
-        }
+    // 4. Update Box Render Position
+    moveBoxTo(positionX, positionY);
 
-        //////////////////////////////////////////////////////////////////
-        /////////////////// YOUR CODE BELOW HERE /////////////////////////
-        //////////////////////////////////////////////////////////////////
+    // 5. Check for Grabbed Items
+    checkItemCollision();
 
-        // TODO 2 - Variable declarations
+    // 6. Boundary Detection (Bouncing off walls)
+    if (positionX > boardWidth - 50) {
+        speed *= -1;
+    }
+    if (positionX < 0) {
+        speed *= -1;
+    }
+}
 
+/*
+ * Handles Box Clicks & Spacebar Jump
+ */
+function handleBoxClick() {
+    positionX = 0;
+    points++;
+    changeBoxText(points);
+    
+    // Linear speed formula (TODO 8 fix)
+    speed = 3 * points + 10;
+}
 
+// Press Spacebar to Jump
+jQuery(document).on('keydown', function(event) {
+    if (event.keyCode === 32 && !isJumping) { // 32 = Spacebar
+        speedY = 20; // Upward jump force
+        isJumping = true;
+    }
+});
 
+/*
+ * Check if the box collides with the collectible item
+ */
+function checkItemCollision() {
+    var horizontalMatch = Math.abs(positionX - itemX) < 40;
+    var verticalMatch = Math.abs(positionY - itemY) < 40;
 
-
-        /**
-         * This Function will be called 20 times/second.
-         * Each time it is called, it should move the Box to a new location.
-         * If the box drifts off the screen, turn it around!
-         */
-        function update() {
-
+    if (horizontalMatch && verticalMatch) {
+        points += 5; // Extra points for grabbing
+        changeBoxText(points);
         
+        // Respawn item and platform in new random locations
+        itemX = getRandomPosition(boardWidth - 30);
+        itemY = Math.floor(Math.random() * 150) + 50;
+        moveItemTo(itemX, itemY);
 
-          
-        }
+        platformX = getRandomPosition(boardWidth - 100);
+        movePlatformTo(platformX);
+    }
+}
 
-        /**
-         * This Function will be called each time the box is clicked.
-         * Each time it is called, it should perform each of the following actions:
-         * - increase the points total
-         * - increase the speed
-         * - move the box to the left side of the screen.
-         */
-        function handleBoxClick() {
+/*
+ * Helper Functions
+ */
+function getRandomPosition(max) {
+    return Math.floor(Math.random() * max);
+}
 
+function moveItemTo(x, y) {
+    collectible.css("left", x + "px");
+    collectible.css("bottom", y + "px");
+}
 
-
-
-        }
-
-
-        
-      })();
+function movePlatformTo(x) {
+    platform.css("left", x + "px");
+}
+      
+     
     </script>
   </body>
 </html>

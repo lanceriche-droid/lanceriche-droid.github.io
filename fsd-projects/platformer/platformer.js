@@ -47,24 +47,10 @@ createCollectable("grace", 760, 230, 0, 0);
 
 
 // TODO 4 - Create Cannons
+createCannon("top", 200, 700);
+createCannon("right", 270, 700);
+createCannon("bottom", 550, 1000)
 
-const sides = ["top", "bottom", "left", "right"];
-
-let cannon1Side = sides[Math.floor(Math.random() * sides.length)];
-let cannon1Pos = Math.floor(Math.random() * 500) + 100;
-let cannon1Delay = Math.floor(Math.random() * 2000) + 1000;
-
-let cannon2Side = sides[Math.floor(Math.random() * sides.length)];
-let cannon2Pos = Math.floor(Math.random() * 500) + 100;
-let cannon2Delay = Math.floor(Math.random() * 2000) + 1000;
-
-let cannon3Side = sides[Math.floor(Math.random() * sides.length)];
-let cannon3Pos = Math.floor(Math.random() * 500) + 100;
-let cannon3Delay = Math.floor(Math.random() * 2000) + 1000;
-
-createCannon(cannon1Side, cannon1Pos, cannon1Delay);
-createCannon(cannon2Side, cannon2Pos, cannon2Delay);
-createCannon(cannon3Side, cannon3Pos, cannon3Delay);
     // ONLY CHANGE ABOVE THIS POINT //
     //////////////////////////////////
   }

@@ -20,18 +20,26 @@ var init = function (window) {
         ///////////////////
         
         // TODO 1 : Declare and initialize our variables
-
+        var circles = [];
 
 
         // TODO 2 : Create a function that draws a circle 
-        
+        function drawCircle() {
+            var circle = draw.randomCircleInArea(canvas, true, true, "#999", 2);
+            physikz.addRandomVelocity(circle, canvas, 5, 5);
+            view.addChild(circle);
+            circles.push(circle);
+        }
 
 
         // TODO 3 : Call the drawCircle() function
-
+        // (Replaced/scaled up by TODO 7 loop below, but keeping function ready)
 
 
         // TODO 7 : Use a loop to create multiple circles
+        for (var i = 0; i < 50; i++) {
+            drawCircle();
+        }
 
 
 
@@ -43,18 +51,18 @@ var init = function (window) {
         /* 
         This Function is called 60 times/second, producing 60 frames/second.
         In each frame, for every circle, it should redraw that circle
-        and check to see if it has drifted off the screen.         
+        and check to see if it has drifted off the screen.        
         */
         function update() {
             // TODO 4 : Update the position of each circle using physikz.updatePosition()
-
-            
             // TODO 5 : Call game.checkCirclePosition() on your circles
-           
-
             // TODO 8 / TODO 9 : Iterate over the array
-           
-            
+            for (var i = 0; i < circles.length; i++) {
+                var eachCircle = circles[i];
+                
+                physikz.updatePosition(eachCircle);
+                game.checkCirclePosition(eachCircle);
+            }
         }
     
         /* 
@@ -71,14 +79,36 @@ var init = function (window) {
             
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
             
+            // Define edges using the circle's radius for smooth wrapping
+            var rightEdge = circle.x + circle.radius;
+            var leftEdge = circle.x - circle.radius;
+            var bottomEdge = circle.y + circle.radius;
+            var topEdge = circle.y - circle.radius;
 
+            // If the circle moves off the left side, reappear on the right
+            if (leftEdge > canvas.width) {
+                circle.x = 0 - circle.radius;
+            }
+            // If the circle moves off the right side, reappear on the left
+            else if (rightEdge < 0) {
+                circle.x = canvas.width + circle.radius;
+            }
+
+            // If the circle moves off the bottom, reappear at the top
+            if (topEdge > canvas.height) {
+                circle.y = 0 - circle.radius;
+            }
+            // If the circle moves off the top, reappear at the bottom
+            else if (bottomEdge < 0) {
+                circle.y = canvas.height + circle.radius;
+            }
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
         }
         
-        /////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
         // --- NO CODE BELOW HERE  --- DO NOT REMOVE THIS CODE --- //
-        /////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
         
         view.addChild(fps);
         app.addUpdateable(fps);

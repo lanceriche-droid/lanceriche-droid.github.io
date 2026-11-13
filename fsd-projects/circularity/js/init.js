@@ -31,7 +31,7 @@ var init = function (window) {
     drawCircle();
 
     // TODO 7 : Use a loop to create multiple circles
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 50; i++) {
       drawCircle();
     }
 
@@ -87,9 +87,9 @@ var init = function (window) {
       // YOUR TODO 6 CODE ENDS HERE //////////////////////////
     };
 
-    /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
     // --- NO CODE BELOW HERE  --- DO NOT REMOVE THIS CODE --- //
-    /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
 
     view.addChild(fps);
     app.addUpdateable(fps);
